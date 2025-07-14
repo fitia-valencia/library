@@ -61,11 +61,11 @@ public class ExemplaireService {
         return exemplaireRepository.findByLivreIdAndDisponibilite(livreId, dispo);
     }
     
-    public int nombreExemplairesDisponibles(Integer livreId) {
+    public int nombreExemplairesDisponibles(Long livreId) {
         return exemplaireRepository.countDisponibleByLivreId(livreId);
     }
 
-    public Exemplaire getExemplaireDisponibleByLivreId(Integer livreId) {
+    public Exemplaire getExemplaireDisponibleByLivreId(Long livreId) {
         return exemplaireRepository.findFirstByLivreIdAndDisponibiliteTrue(livreId);
     }
 }
