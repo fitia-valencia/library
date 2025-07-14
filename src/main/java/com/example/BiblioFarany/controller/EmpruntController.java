@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.BiblioFarany.model.Adherent;
 import com.example.BiblioFarany.model.Demande;
+import com.example.BiblioFarany.model.Emprunt;
 import com.example.BiblioFarany.model.Exemplaire;
 import com.example.BiblioFarany.model.Livre;
 import com.example.BiblioFarany.model.TypeDemande;
 import com.example.BiblioFarany.service.PenalisationService;
-// import com.example.BiblioFarany.service.AdherentService;
+import com.example.BiblioFarany.service.AdherentService;
 import com.example.BiblioFarany.service.DemandeService;
 import com.example.BiblioFarany.service.TypeDemandeService;
 
@@ -28,8 +30,8 @@ import com.example.BiblioFarany.service.LivreService;
 
 @Controller
 public class EmpruntController {
-    // @Autowired
-    // private AdherentService adherentService;
+    @Autowired
+    private AdherentService adherentService;
     @Autowired
     private PenalisationService penalisationService;
     @Autowired
@@ -87,6 +89,27 @@ public class EmpruntController {
 
     @GetMapping("liste-emprunt")
     public String afficherListeEmprunt(Model model, HttpSession session) {
+        List<Emprunt> emprunts = empruntService.getAllEmprunt();
+        model.addAttribute("emprunts", emprunts);
         return "liste-emprunt";
     }
+
+    @GetMapping("ajout-emprunt")
+    public String ajoutEmprunt(Model model, HttpSession session) {
+        model.addAttribute("adherents", adherentService.getAllAdherents());
+        model.addAttribute("exemplaires", exemplaireService.getAll());
+        return "ajout-emprunt";
+    }
+
+    @PostMapping("ajout-emprunt")
+    public String ajoutEmprunt(@RequestParam("adherentId") Integer idAdherent, @RequestParam("exemplaireId") Integer idExemplaire, 
+    @RequestParam("dateEmprunt") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateEmprunt,
+    @RequestParam("dateRetourPrevue") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateRetourPrevue){
+        Emprunt emprunt = new Emprunt(adherentService.findById(idAdherent),exemplaireService.findById(idExemplaire.longValue()),
+        dateEmprunt,dateRetourPrevue);
+        empruntService.save(emprunt);
+        return "redirect:/liste-emprunt";
+    }
+
 }
+

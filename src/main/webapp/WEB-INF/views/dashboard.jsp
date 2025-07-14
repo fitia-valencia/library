@@ -91,12 +91,12 @@
         <a href="liste-demande">Gérer</a>
     </div>
 
-    <%-- <div class="card">
+    <div class="card">
         <h2>Emprunts</h2>
         <a href="liste-emprunt">Voir</a>
     </div>
 
-    <div class="card">
+    <%--<div class="card">
         <h2>Réservations</h2>
         <a href="liste-reservation">Voir</a>
     </div>

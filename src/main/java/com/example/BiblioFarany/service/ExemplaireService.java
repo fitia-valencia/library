@@ -68,4 +68,8 @@ public class ExemplaireService {
     public Exemplaire getExemplaireDisponibleByLivreId(Long livreId) {
         return exemplaireRepository.findFirstByLivreIdAndDisponibiliteTrue(livreId);
     }
+
+    public Exemplaire findById(Long id){
+        return exemplaireRepository.findById(id).orElse(null);
+    }
 }

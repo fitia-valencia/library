@@ -126,7 +126,7 @@ public class AdherentController {
     @GetMapping("/details-adherent")
     public String afficherDetails(@RequestParam("adherentId") Integer id, Model model) {
         Adherent adherent = adherentService.getAdherentById(id);
-        List<Emprunt> emprunts = empruntService.getEmpruntsParAdherent(id);
+        List<Emprunt> emprunts = empruntService.getEmpruntsParAdherent(adherent);
         List<Reservation> reservations = reservationService.getReservationsParAdherent(id);
         List<Penalisation> penalites = penalisationService.getPenalitesParAdherent(adherent); // <-- ajoute cette ligne
 
