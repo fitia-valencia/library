@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.BiblioFarany.model.Adherent;
 import com.example.BiblioFarany.model.Demande;
 import com.example.BiblioFarany.model.Exemplaire;
+import com.example.BiblioFarany.model.Livre;
 import com.example.BiblioFarany.model.TypeDemande;
 import com.example.BiblioFarany.service.PenalisationService;
 // import com.example.BiblioFarany.service.AdherentService;
@@ -23,6 +24,7 @@ import jakarta.servlet.http.HttpSession;
 
 import com.example.BiblioFarany.service.EmpruntService;
 import com.example.BiblioFarany.service.ExemplaireService;
+import com.example.BiblioFarany.service.LivreService;
 
 @Controller
 public class EmpruntController {
@@ -38,16 +40,19 @@ public class EmpruntController {
     private DemandeService demandeService;
     @Autowired
     private TypeDemandeService typeDemandeService;
-
+    @Autowired
+    private LivreService livreService;
     @PostMapping("/emprunter")
-    public String demanderEmprunterLivre(@RequestParam("livreId") Integer idLivre,
+    public String demanderEmprunterLivre(@RequestParam("livreId") Long idLivre,
             @RequestParam("typeDemandeId") Integer idTypeDemande, Model model, HttpSession session) {
         Adherent adherent = (Adherent) session.getAttribute("adherent");
         boolean aDesPenoActives = penalisationService.aDesPenalisationsActives(adherent);
         int nombreExemplairesRestantsPourEmprunt = empruntService.getNombreExemplairesRestantsPourEmprunt(adherent);
         int nombreExemplaireDispoPourLeLivre = exemplaireService.nombreExemplairesDisponibles(idLivre);
+        Livre livre = livreService.getById(idLivre);
+        int ageMin = livre.getRestrictionAge();
         if (adherent.isActive() && !aDesPenoActives && nombreExemplairesRestantsPourEmprunt > 0
-                && nombreExemplaireDispoPourLeLivre > 0) {
+                && nombreExemplaireDispoPourLeLivre > 0 && adherent.getAge() >= ageMin) {
             // empruntService.creerEmprunt(adherent,
             // exemplaireService.getExemplaireById(idLivre));
             TypeDemande typeDemande = typeDemandeService.findById(idTypeDemande);

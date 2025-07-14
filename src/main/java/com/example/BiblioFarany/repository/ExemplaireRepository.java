@@ -12,7 +12,7 @@ public interface ExemplaireRepository extends JpaRepository<Exemplaire, Long> {
     List<Exemplaire> findByDisponibilite(boolean disponibilite);
     List<Exemplaire> findByLivreIdAndDisponibilite(Long livreId, boolean disponibilite);
     @Query("SELECT COUNT(e) FROM Exemplaire e WHERE e.livre.id = :livreId AND e.disponibilite = true")
-    int countDisponibleByLivreId(Integer livreId);
-    Exemplaire findFirstByLivreIdAndDisponibiliteTrue(Integer livreId);
+    int countDisponibleByLivreId(Long livreId);
+    Exemplaire findFirstByLivreIdAndDisponibiliteTrue(Long livreId);
 
 }

@@ -2,6 +2,7 @@ package com.example.BiblioFarany.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Entity
@@ -119,4 +120,7 @@ public class Adherent {
     @OneToMany(mappedBy = "adherent", cascade = CascadeType.ALL)
     private List<Penalisation> penalites;
 
+    public int getAge(){
+        return Period.between(dateNaissance, LocalDate.now()).getYears();
+    }
 }

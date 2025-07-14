@@ -52,6 +52,6 @@ public class EmpruntService {
             throw new RuntimeException("Quota non défini pour le type d'adhérent : " + adherent.getTypeAdherent().getLibelle());
         }
 
-        return Math.max(0, quota.getQuotaExemplaireEmpruntable() - empruntsEnCours);
+        return Math.max(0, quota.getQuotaEmpruntTotal() - empruntsEnCours);
     }
 }

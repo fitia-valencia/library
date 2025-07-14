@@ -31,5 +31,8 @@ public class LivreService {
             return livreRepository.findAll();
         }
     }
+    public Livre getById(Long id) {
+        return livreRepository.findById(id).orElse(null);
+    }
         
 }

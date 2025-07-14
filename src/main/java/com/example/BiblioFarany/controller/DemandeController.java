@@ -13,12 +13,17 @@ import com.example.BiblioFarany.model.Adherent;
 import com.example.BiblioFarany.model.Demande;
 // import com.example.BiblioFarany.model.Emprunt;
 import com.example.BiblioFarany.model.Exemplaire;
+import com.example.BiblioFarany.model.Prolongement;
+import com.example.BiblioFarany.model.Reservation;
+import com.example.BiblioFarany.model.TypeDemande;
 // import com.example.BiblioFarany.model.Penalisation;
 // import com.example.BiblioFarany.service.AdherentService;
 import com.example.BiblioFarany.service.DemandeService;
 import com.example.BiblioFarany.service.EmpruntService;
 import com.example.BiblioFarany.service.ExemplaireService;
 import com.example.BiblioFarany.service.PenalisationService;
+import com.example.BiblioFarany.service.ProlongementService;
+import com.example.BiblioFarany.service.ReservationService;
 
 @Controller
 public class DemandeController {
@@ -28,6 +33,10 @@ public class DemandeController {
     private PenalisationService penalisationService;
     @Autowired
     private EmpruntService empruntService;
+    @Autowired
+    private ReservationService reservationService;
+    @Autowired
+    private ProlongementService prolongementService;
      @Autowired
     private ExemplaireService exemplaireService;
 
@@ -45,11 +54,22 @@ public class DemandeController {
         Exemplaire exemplaire = demande.getExemplaire();
         boolean aDesPenoActives = penalisationService.aDesPenalisationsActives(adherent);
         int nombreExemplairesRestantsPourEmprunt = empruntService.getNombreExemplairesRestantsPourEmprunt(adherent);
-        int nombreExemplaireDispoPourLeLivre = exemplaireService.nombreExemplairesDisponibles(exemplaire.getLivre().getId());
-        if(adherent.isActive() && !aDesPenoActives && nombreExemplairesRestantsPourEmprunt>0 && nombreExemplaireDispoPourLeLivre>0) {
+        int nombreExemplaireDispoPourLeLivre = exemplaireService.nombreExemplairesDisponibles(Long.valueOf(exemplaire.getLivre().getId()));
+        int ageMin = exemplaire.getLivre().getRestrictionAge();
+        if(adherent.isActive() && !aDesPenoActives && nombreExemplairesRestantsPourEmprunt>0 && nombreExemplaireDispoPourLeLivre>0 && adherent.getAge()>=ageMin) {
             demande.setValidation(true);
-            empruntService.creerEmprunt(adherent, exemplaire);
-            return "redirect:/liste-emprunt";
+            if(demande.getTypeDemande().getLibelle()=="emprunt"){
+                empruntService.creerEmprunt(adherent, exemplaire);
+                return "redirect:/liste-emprunt";
+            }
+            if(demande.getTypeDemande().getLibelle()=="reservation"){
+                reservationService.creerReservation(adherent, exemplaire);
+                return "redirect:/liste-reservation";
+            }
+            if(demande.getTypeDemande().getLibelle()=="prolongement"){
+                prolongementService.creerProlongement(adherent, exemplaire);
+                return "redirect:/liste-prolongement";
+            }
         }
         return "redirect:/liste-demande";
     }
