@@ -15,7 +15,7 @@ import com.example.BiblioFarany.model.Demande;
 import com.example.BiblioFarany.model.Exemplaire;
 import com.example.BiblioFarany.model.TypeDemande;
 import com.example.BiblioFarany.service.PenalisationService;
-import com.example.BiblioFarany.service.AdherentService;
+// import com.example.BiblioFarany.service.AdherentService;
 import com.example.BiblioFarany.service.DemandeService;
 import com.example.BiblioFarany.service.TypeDemandeService;
 
@@ -26,8 +26,8 @@ import com.example.BiblioFarany.service.ExemplaireService;
 
 @Controller
 public class EmpruntController {
-    @Autowired
-    private AdherentService adherentService;
+    // @Autowired
+    // private AdherentService adherentService;
     @Autowired
     private PenalisationService penalisationService;
     @Autowired
@@ -53,14 +53,14 @@ public class EmpruntController {
             TypeDemande typeDemande = typeDemandeService.findById(idTypeDemande);
             Exemplaire exemplaire = exemplaireService.getExemplaireDisponibleByLivreId(idLivre);
             Demande saved = demandeService.saveDemande(typeDemande, adherent, exemplaire, LocalDate.now(),
-                    LocalDate.now());
+                    LocalDate.now(),false);
             model.addAttribute("demande", saved);
             model.addAttribute("adherent", adherent);
             model.addAttribute("exemplaire", exemplaire);
             model.addAttribute("typeDemande", typeDemande);
             return "redirect:/demande-emprunt";
         }
-        return "liste-livre";
+        return "redirect:/liste-livre";
     }
 
     @GetMapping("/demande-emprunt")
@@ -68,7 +68,7 @@ public class EmpruntController {
         Adherent adherent = (Adherent) session.getAttribute("adherent");
 
         // Récupérer les demandes ou emprunts liés à l'adhérent
-        List<Demande> demandes = demandeService.findByAdherent(adherent);
+        List<Demande> demandes = demandeService.findDemandesNonValideesByAdherent(adherent);
 
         // Envoyer à la vue
         model.addAttribute("demandes", demandes);
@@ -78,5 +78,10 @@ public class EmpruntController {
         }
 
         return "demande-emprunt";
+    }
+
+    @GetMapping("liste-emprunt")
+    public String afficherListeEmprunt(Model model, HttpSession session) {
+        return "liste-emprunt";
     }
 }

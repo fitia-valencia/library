@@ -29,6 +29,9 @@ public class Demande {
     @Column(name = "date_envoi_demande")
     private LocalDate dateEnvoiDemande;
 
+    @Column(name = "validation", nullable = false)
+    private Boolean validation = false;
+
     // --- Getters & Setters ---
 
     public Integer getId() {
@@ -77,5 +80,13 @@ public class Demande {
 
     public void setDateEnvoiDemande(LocalDate dateEnvoiDemande) {
         this.dateEnvoiDemande = dateEnvoiDemande;
+    }
+
+    public Boolean getValidation() {
+        return validation;
+    }
+
+    public void setValidation(Boolean validation) {
+        this.validation = validation;
     }
 }

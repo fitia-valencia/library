@@ -23,6 +23,10 @@ public class EmpruntService {
     @Autowired
     private QuotaRepository quotaRepository;
 
+    public List<Emprunt> getAllEmprunt() {
+        return empruntRepository.findAll();
+    }
+
     public List<Emprunt> getEmpruntsParAdherent(int adherentId) {
         return empruntRepository.findByAdherentId(adherentId);
     }

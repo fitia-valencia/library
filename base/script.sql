@@ -135,3 +135,5 @@ CREATE TABLE demande (
     date_envoi_demande DATE
 );
 
+ALTER TABLE demande
+ADD COLUMN validation BOOLEAN DEFAULT FALSE;

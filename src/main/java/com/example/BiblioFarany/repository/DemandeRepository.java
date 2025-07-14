@@ -11,5 +11,7 @@ import com.example.BiblioFarany.model.Demande;
 @Repository
 public interface DemandeRepository extends JpaRepository<Demande, Integer> {
     List<Demande> findByAdherent(Adherent adherent);
+    List<Demande> findByValidationFalse();
+    List<Demande> findByAdherentAndValidationFalse(Adherent adherent);
 
 }
