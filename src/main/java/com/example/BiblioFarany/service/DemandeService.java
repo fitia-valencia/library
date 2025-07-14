@@ -19,13 +19,24 @@ public class DemandeService {
     @Autowired
     private DemandeRepository demandeRepository;
     
-    public Demande saveDemande(TypeDemande typeDemande, Adherent adherent, Exemplaire exemplaire,LocalDate dateDemande, LocalDate dateEnvoiDemande) {
+    public Demande findById(Integer id){
+        return demandeRepository.findById(id).orElse(null);
+    }
+    public List<Demande> getDemandesNonValidees() {
+        return demandeRepository.findByValidationFalse();
+    }
+    public List<Demande> findDemandesNonValideesByAdherent(Adherent adherent) {
+        return demandeRepository.findByAdherentAndValidationFalse(adherent);
+    }
+    
+    public Demande saveDemande(TypeDemande typeDemande, Adherent adherent, Exemplaire exemplaire,LocalDate dateDemande, LocalDate dateEnvoiDemande, boolean validation) {
         Demande demande = new Demande();
         demande.setTypeDemande(typeDemande);
         demande.setAdherent(adherent);
         demande.setExemplaire(exemplaire);
         demande.setDateDemande(dateDemande);
         demande.setDateEnvoiDemande(dateEnvoiDemande);
+        demande.setValidation(validation);
         return demandeRepository.save(demande);
         
     }
