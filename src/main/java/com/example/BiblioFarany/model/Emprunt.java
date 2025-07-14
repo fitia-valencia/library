@@ -26,7 +26,17 @@ public class Emprunt {
 
     @Column(name = "date_retour_reelle")
     private LocalDate dateRetourReelle;
-
+    
+    public Emprunt() {
+    }
+    
+    public Emprunt(Adherent adherent, Exemplaire exemplaire, LocalDate dateEmprunt, LocalDate dateRetourPrevue) {
+        this.adherent = adherent;
+        this.exemplaire = exemplaire;
+        this.dateEmprunt = dateEmprunt;
+        this.dateRetourPrevue = dateRetourPrevue;
+    }
+    
     public Integer getId() {
         return id;
     }

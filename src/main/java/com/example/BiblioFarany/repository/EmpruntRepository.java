@@ -17,5 +17,6 @@ public interface EmpruntRepository extends JpaRepository<Emprunt, Integer> {
     int countEmpruntsEnCoursByAdherent(Adherent adherent);
 
     List<Emprunt> findByAdherentAndDateRetourReelleIsNull(Adherent adherent);
+    List<Emprunt> findByDateRetourReelleIsNull();
 
 }

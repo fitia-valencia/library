@@ -27,8 +27,16 @@ public class EmpruntService {
         return empruntRepository.findAll();
     }
 
-    public List<Emprunt> getEmpruntsParAdherent(int adherentId) {
-        return empruntRepository.findByAdherentId(adherentId);
+    public void save(Emprunt emprunt){
+        empruntRepository.save(emprunt);
+    }
+
+    public List<Emprunt> getEmpruntsParAdherent(Adherent adherent) {
+        return empruntRepository.findByAdherentAndDateRetourReelleIsNull(adherent);
+    }
+
+    public List<Emprunt> getAllEmpruntEnCours(){
+        return empruntRepository.findByDateRetourReelleIsNull();
     }
 
     public void creerEmprunt(Adherent adherent, Exemplaire exemplaire) {
