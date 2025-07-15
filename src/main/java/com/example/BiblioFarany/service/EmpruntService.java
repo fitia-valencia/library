@@ -31,6 +31,10 @@ public class EmpruntService {
         empruntRepository.save(emprunt);
     }
 
+    public Emprunt getByIdEmprunt(Integer id){
+        return (Emprunt) empruntRepository.findById(id);
+    }
+
     public List<Emprunt> getEmpruntsParAdherent(Adherent adherent) {
         return empruntRepository.findByAdherentAndDateRetourReelleIsNull(adherent);
     }
@@ -61,5 +65,9 @@ public class EmpruntService {
         }
 
         return Math.max(0, quota.getQuotaEmpruntTotal() - empruntsEnCours);
+    }
+
+    public void updateDateRetourReelle(Long idEmprunt, LocalDate date){
+        empruntRepository.updateDateRetourReelle(idEmprunt, date);
     }
 }
