@@ -96,12 +96,12 @@
         <a href="liste-emprunt">Voir</a>
     </div>
 
-    <%--<div class="card">
+    <div class="card">
         <h2>Réservations</h2>
         <a href="liste-reservation">Voir</a>
     </div>
 
-    <div class="card">
+    <%--<div class="card">
         <h2>Pénalisations</h2>
         <a href="liste-penalisation">Voir</a>
     </div>
@@ -109,11 +109,6 @@
     <div class="card">
         <h2>Types d’adhérents</h2>
         <a href="liste-type-adherent">Gérer</a>
-    </div>
-
-    <div class="card">
-        <h2>Genres de livre</h2>
-        <a href="liste-genre">Gérer</a>
     </div>--%>
 
     <div class="card">
