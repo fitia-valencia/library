@@ -10,5 +10,5 @@ import com.example.BiblioFarany.model.Reservation;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     List<Reservation> findByAdherentId(Integer adherentId);
-    
+    List<Reservation> findAll();
 }

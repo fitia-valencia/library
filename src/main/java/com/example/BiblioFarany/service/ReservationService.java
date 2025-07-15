@@ -16,6 +16,10 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    public List<Reservation> getAll(){
+        return reservationRepository.findAll();
+    }
+
     public List<Reservation> getReservationsParAdherent(int adherentId) {
         return reservationRepository.findByAdherentId(adherentId);
     }
