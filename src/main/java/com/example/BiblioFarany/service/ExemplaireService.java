@@ -76,4 +76,5 @@ public class ExemplaireService {
     public void updateDisponibilite(Long id, boolean disponibilite){
         exemplaireRepository.updateDisponibilite(id, disponibilite);
     }
+
 }
