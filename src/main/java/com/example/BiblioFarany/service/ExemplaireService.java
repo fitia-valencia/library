@@ -72,4 +72,8 @@ public class ExemplaireService {
     public Exemplaire findById(Long id){
         return exemplaireRepository.findById(id).orElse(null);
     }
+
+    public void updateDisponibilite(Long id, boolean disponibilite){
+        exemplaireRepository.updateDisponibilite(id, disponibilite);
+    }
 }
