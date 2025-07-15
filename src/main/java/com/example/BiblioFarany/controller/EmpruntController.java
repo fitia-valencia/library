@@ -105,10 +105,19 @@ public class EmpruntController {
     public String ajoutEmprunt(@RequestParam("adherentId") Integer idAdherent, @RequestParam("exemplaireId") Integer idExemplaire, 
     @RequestParam("dateEmprunt") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateEmprunt,
     @RequestParam("dateRetourPrevue") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateRetourPrevue){
-        Emprunt emprunt = new Emprunt(adherentService.findById(idAdherent),exemplaireService.findById(idExemplaire.longValue()),
-        dateEmprunt,dateRetourPrevue);
-        empruntService.save(emprunt);
-        return "redirect:/liste-emprunt";
+        Adherent adherent = adherentService.findById(idAdherent);
+        Exemplaire exemplaire = exemplaireService.findById(idExemplaire.longValue());
+        boolean aDesPenoActives = penalisationService.aDesPenalisationsActives(adherent);
+        int nombreExemplairesRestantsPourEmprunt = empruntService.getNombreExemplairesRestantsPourEmprunt(adherent);
+        int nombreExemplaireDispoPourLeLivre = exemplaireService.nombreExemplairesDisponibles(Long.valueOf(exemplaire.getLivre().getId()));
+        int ageMin = exemplaire.getLivre().getRestrictionAge();
+        if(adherent.isActive() && !aDesPenoActives && nombreExemplairesRestantsPourEmprunt>0 && nombreExemplaireDispoPourLeLivre>0 && adherent.getAge()>=ageMin) {
+            Emprunt emprunt = new Emprunt(adherent,exemplaire,
+            dateEmprunt,dateRetourPrevue);
+            empruntService.save(emprunt);
+            return "redirect:/liste-emprunt?message=succès";
+        }
+        return "redirect:/liste-emprunt?message=erreur";
     }
 
 }
