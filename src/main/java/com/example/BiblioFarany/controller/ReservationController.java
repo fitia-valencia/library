@@ -130,4 +130,11 @@ public class ReservationController {
         return "demande-reservation";
     }
 
+    @GetMapping("liste-reservation")
+    public String afficherListeReservation(Model model, HttpSession httpSession){
+        List<Reservation> reservations = reservationService.getAll();
+        model.addAttribute("reservations", reservations);
+        return "liste-reservation";
+    }
+
 }
