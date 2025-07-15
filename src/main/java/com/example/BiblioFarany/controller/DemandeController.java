@@ -58,15 +58,15 @@ public class DemandeController {
         int ageMin = exemplaire.getLivre().getRestrictionAge();
         if(adherent.isActive() && !aDesPenoActives && nombreExemplairesRestantsPourEmprunt>0 && nombreExemplaireDispoPourLeLivre>0 && adherent.getAge()>=ageMin) {
             demande.setValidation(true);
-            if(demande.getTypeDemande().getLibelle()=="emprunt"){
+            if(demande.getTypeDemande().getLibelle().equals("emprunt")){
                 empruntService.creerEmprunt(adherent, exemplaire);
                 return "redirect:/liste-emprunt";
             }
-            if(demande.getTypeDemande().getLibelle()=="reservation"){
-                reservationService.creerReservation(adherent, exemplaire);
+            if(demande.getTypeDemande().getLibelle().equals("reservation")){
+                reservationService.creerReservation(adherent, exemplaire, demande);
                 return "redirect:/liste-reservation";
             }
-            if(demande.getTypeDemande().getLibelle()=="prolongement"){
+            if(demande.getTypeDemande().getLibelle().equals("prolongement")){
                 prolongementService.creerProlongement(adherent, exemplaire);
                 return "redirect:/liste-prolongement";
             }
