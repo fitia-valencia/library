@@ -131,6 +131,8 @@ public String afficherFormulaireRetour(@RequestParam("empruntId") Integer emprun
     @PostMapping("retourner")
     public String retournerExemplaire(@RequestParam("empruntId") Long empruntId, @RequestParam("dateRetourReelle") LocalDate dateRetourReelle){
         empruntService.updateDateRetourReelle(empruntId, dateRetourReelle);
+        Exemplaire exemplaire = exemplaireService.findById(empruntService.getByIdEmprunt(empruntId.intValue()).getExemplaire().getId().longValue());
+        exemplaireService.updateDisponibilite(exemplaire.getId().longValue(), true);
         return "redirect:/liste-emprunt";
     }
 

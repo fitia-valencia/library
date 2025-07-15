@@ -94,7 +94,6 @@
             <option value="${pageContext.request.contextPath}/demande-prolongement">Prolongements</option>
         </select>
         <a href="${pageContext.request.contextPath}/liste-penalisation">Pénalisations</a>
-        <a href="${pageContext.request.contextPath}/emprunt-actuel">Emprunts actuels</a>
         <a href="${pageContext.request.contextPath}/logout" style="float: right;">Se déconnecter</a>
     </div>
 
@@ -153,7 +152,7 @@
                             <input type="submit" value="Emprunter">
                         </form>
 
-                        <form action="/reserver" method="post" style="display:inline;">
+                        <form action="/reserver" method="get" style="display:inline;">
                             <input type="hidden" name="livreId" value="${livre.id}">
                             <input type="submit" value="Réserver">
                         </form>
