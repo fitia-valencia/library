@@ -140,10 +140,17 @@
                 </c:choose>
                 </td>                
                 <td>
-                    <form action="/retourner" method="post" style="display:inline;">
-                        <input type="hidden" name="empruntId" value="${emprunt.id}">
-                        <input type="submit" value="Retourner">
-                    </form>
+                    <c:choose>
+                        <c:when test="${not empty emprunt.dateRetourReelle}">
+                            <span style="color: gray;">Déjà retourné</span>
+                        </c:when>
+                        <c:otherwise>
+                            <form action="${pageContext.request.contextPath}/retourner" method="get" style="display:inline;">
+                                <input type="hidden" name="empruntId" value="${emprunt.id}">
+                                <input type="submit" value="Retourner">
+                            </form>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
         </c:forEach>

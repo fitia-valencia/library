@@ -120,5 +120,19 @@ public class EmpruntController {
         return "redirect:/liste-emprunt?message=erreur";
     }
 
+    @GetMapping("retourner")
+public String afficherFormulaireRetour(@RequestParam("empruntId") Integer empruntId, Model model){
+    Emprunt emprunt = empruntService.getByIdEmprunt(empruntId);
+    model.addAttribute("emprunt", emprunt);
+    return "retourner";
+}
+
+
+    @PostMapping("retourner")
+    public String retournerExemplaire(@RequestParam("empruntId") Long empruntId, @RequestParam("dateRetourReelle") LocalDate dateRetourReelle){
+        empruntService.updateDateRetourReelle(empruntId, dateRetourReelle);
+        return "redirect:/liste-emprunt";
+    }
+
 }
 
